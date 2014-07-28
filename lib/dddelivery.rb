@@ -22,8 +22,8 @@ class Dddelivery
     @adapters[klass] = Array(@adapters[klass]) + [adapter]
   end
 
-  def lookup(domain_object_name)
-    klass = "Dddelivery::#{domain_object_name.to_s.classify}".constantize
+  def lookup(*domain_names)
+    klass = ('Dddelivery::' + domain_names.map {|name| name.to_s.classify }.join('::') ).constantize
     Array(adapters[klass]).each do |adapter|
       klass = adapter.wrap(klass)
     end
