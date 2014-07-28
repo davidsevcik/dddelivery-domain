@@ -1,11 +1,4 @@
-require 'active_support/all'
-
-require 'dddelivery/product'
-require 'dddelivery/order'
-require 'dddelivery/product_repository'
-require 'dddelivery/order_repository'
-require 'dddelivery/place_order_service'
-
+require 'active_support/core_ext/string/inflections'
 
 class Dddelivery
 
