@@ -11,15 +11,24 @@ class Dddelivery
 
   attr_reader :adapters
 
-  def initialize(adapters = [])
-    @adapters = adapters
+  def initialize
+    @adapters = {}
   end
 
-  def [](domain_object_name)
-    klass = domain_object_name.to_s.classify.constantize
-    adapters.each do |adapter|
-      klass = adapter.wrap(klass) if adapter.use_for?(klass)
+  def use_adapter(*args)
+    adapter = args.slice!(-1)
+    class_name = 'Dddelivery::' + args.map {|arg| arg.to_s.classify }.join('::')
+    klass = class_name.constantize
+    @adapters[klass] = Array(@adapters[klass]) + [adapter]
+  end
+
+  def lookup(domain_object_name)
+    klass = "Dddelivery::#{domain_object_name.to_s.classify}".constantize
+    Array(adapters[klass]).each do |adapter|
+      klass = adapter.wrap(klass)
     end
     klass
   end
+
+  alias_method :[], :lookup
 end

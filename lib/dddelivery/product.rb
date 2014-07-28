@@ -1,4 +1,4 @@
-module Dddelivery
+class Dddelivery
   class Product
 
   end

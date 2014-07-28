@@ -1,5 +1,5 @@
-require './order/order_item'
-require './order/transport'
+require 'dddelivery/order/order_item'
+require 'dddelivery/order/transport'
 
 class Dddelivery
   class Order
