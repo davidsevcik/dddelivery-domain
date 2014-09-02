@@ -12,13 +12,13 @@ class Dddelivery
     adapter = args.slice!(-1)
     class_name = 'Dddelivery::' + args.map {|arg| arg.to_s.classify }.join('::')
     klass = class_name.constantize
-    @adapters[klass] = Array(@adapters[klass]) + [adapter]
+    (@adapters[klass] ||= []) << adapter
   end
 
   def lookup(*domain_names)
     klass = ('Dddelivery::' + domain_names.map {|name| name.to_s.classify }.join('::') ).constantize
     Array(adapters[klass]).each do |adapter|
-      klass = adapter.wrap(klass)
+      klass = adapter.adapt(klass)
     end
     klass
   end
